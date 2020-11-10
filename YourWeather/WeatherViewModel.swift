@@ -7,9 +7,13 @@
 
 //import Combine
 import Foundation
+import Dispatch
 
 class WeatherViewModel: ObservableObject {
     @Published private var weatherData: WeatherResponse?
+    
+    @Published private var symbolData = [Symbol]()
+
     
     // Instant properties
     var instantTemperature: Double {
@@ -17,6 +21,7 @@ class WeatherViewModel: ObservableObject {
             return 0
         }
         return temperature
+
     }
     
     var instantText: String {
@@ -33,9 +38,19 @@ class WeatherViewModel: ObservableObject {
         guard var symbolCode = weatherData?.properties.timeseries[0].data.nextHours?.summary.symbolCode else {
             return ""
         }
-        if symbolCode == "partlycloudy_night" {
-            symbolCode = "delvis skyet natt"
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode.contains(symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
+            }
         }
+        
         return symbolCode
     }
     
@@ -58,9 +73,19 @@ class WeatherViewModel: ObservableObject {
         guard var symbolCode = weatherData?.properties.timeseries[0].data.next6Hours?.summary.symbolCode else {
             return ""
         }
-        if symbolCode == "partlycloudy_night" {
-            symbolCode = "delvis skyet natt"
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode.contains(symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
+            }
         }
+        
         return symbolCode
     }
     
@@ -83,13 +108,23 @@ class WeatherViewModel: ObservableObject {
         guard var symbolCode = weatherData?.properties.timeseries[0].data.next12Hours?.summary.symbolCode else {
             return ""
         }
-        if symbolCode == "partlycloudy_night" {
-            symbolCode = "delvis skyet natt"
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode.contains(symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
+            }
         }
+
         return symbolCode
     }
     
-    func fetchData() {
+    func fetchWeatherData() {
         
         Webservice().getWeatherUpdatesKristiania { result in
             switch result {
@@ -105,7 +140,26 @@ class WeatherViewModel: ObservableObject {
                     print("Something went wrong with the decoding")
                 }
             }
-            
+        }
+    }
+    
+    func fetchWeatherSymbolInfo() {
+        
+        Webservice().getWeatherSymbolsInfo { result in
+            switch result {
+            case .success(let symbolInfo):
+                self.symbolData.append(symbolInfo)
+                print(self.symbolData)
+            case .failure(let error):
+                switch error {
+                case .UrlFault:
+                    print("Something wrong with the url")
+                case .getDataFailed:
+                    print("found no data")
+                case .decodingError:
+                    print("Something went wrong with the decoding")
+                }
+            }
         }
     }
     

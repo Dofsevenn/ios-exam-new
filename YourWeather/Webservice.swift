@@ -36,7 +36,6 @@ class Webservice: ObservableObject {
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
                 decoder.dateDecodingStrategy = .formatted(formatter)
                 
-                
                 let weather = try? decoder.decode(WeatherResponse.self, from: data)
             
                 if let weather = weather {
@@ -48,7 +47,7 @@ class Webservice: ObservableObject {
         }.resume()
     }
 
-    func getWeatherSymbolsInfo(completion: @escaping (Result<WeatherSymbolInfo, NetworkError>) -> Void) {
+    func getWeatherSymbolsInfo(completion: @escaping (Result<Symbol, NetworkError>) -> Void) {
         guard let url = URL(string: "https://api.met.no/weatherapi/weathericon/2.0/legends#") else {
             completion(.failure(.UrlFault))
             return
@@ -63,10 +62,11 @@ class Webservice: ObservableObject {
                 
                 let decoder = JSONDecoder()
                 
-                let symbolInfo = try? decoder.decode(WeatherSymbolInfo.self, from: data)
+                let symbolInfo = try? decoder.decode(Symbol.self, from: data)
                 
                 if let symbolInfo = symbolInfo {
                     completion(.success(symbolInfo))
+                    print(symbolInfo)
                 } else {
                     completion(.failure(.decodingError))
                 }

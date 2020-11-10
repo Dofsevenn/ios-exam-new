@@ -9,10 +9,7 @@ import Combine
 import SwiftUI
 
 // Hva trengs å gjøres i neste steg:
-// Formattere symbolkodene til norsk og riktig symbol
 // Skrive Readme fila!
-// Opprette .gitignore
-// Opprette git!
 // Sjekke om alt på oppgave 1 er løst
 // Wrappe WeatherViewModel i en gruppemappe
 // Gå til neste oppgave hvis alt på oppgaven er løst
@@ -24,6 +21,11 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var weatherVM = WeatherViewModel()
+
+    init() {
+        weatherVM.fetchWeatherSymbolInfo()
+        weatherVM.fetchWeatherData()
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -93,20 +95,18 @@ struct ContentView: View {
                         }.environment(\.defaultMinListRowHeight, 60)
                         .navigationBarTitle("Værmelding")                // Finnes det noen navigationBarBottom eller lignende
                         .navigationBarItems(trailing: Button(action: {
-                            weatherVM.fetchData()
+                            weatherVM.fetchWeatherData()
+                            weatherVM.fetchWeatherSymbolInfo()
                         }, label: {
                             Text("Refresh")
                         }))
-                        .onAppear() {
-                            weatherVM.fetchData()
-                        }
-                        
                     }
+                    
                     // Se på om det går ann å bruke navbar bottom..
                     //VStack{
-                    
                 }
                 Spacer()
+                Divider()
                 HStack{ // Disse dataene må hentes inn! og justee skriftstørrelsen
                     Text("Høyskolen Kristiania")
                         .padding(.leading)
