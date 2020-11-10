@@ -96,7 +96,7 @@ struct ContentView: View {
                                     }.frame(height: 60)
                                 }
                             }.environment(\.defaultMinListRowHeight, 60)
-                            .navigationBarTitle("Værmelding")                // Finnes det noen navigationBarBottom eller lignende
+                            .navigationBarTitle("Værmelding", displayMode: .inline)                // Finnes det noen navigationBarBottom eller lignende
                             .navigationBarItems(trailing: Button(action: {
                                 weatherVM.fetchWeatherData()
                                 weatherVM.fetchWeatherSymbolInfo()
@@ -105,6 +105,7 @@ struct ContentView: View {
                             }))
                         } else if self.router.currentView == "kart" {
                             Text("Her kommer kartet")
+                                .navigationBarTitle("Kart", displayMode: .inline)
                         }
                     }
                 }
