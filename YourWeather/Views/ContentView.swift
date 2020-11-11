@@ -96,7 +96,7 @@ struct ContentView: View {
                                     }.frame(height: 60)
                                 }
                             }.environment(\.defaultMinListRowHeight, 60)
-                            .navigationBarTitle("Værmelding", displayMode: .inline)                // Finnes det noen navigationBarBottom eller lignende
+                            .navigationBarTitle("Værmelding", displayMode: .inline)
                             .navigationBarItems(trailing: Button(action: {
                                 weatherVM.fetchWeatherData()
                                 weatherVM.fetchWeatherSymbolInfo()
@@ -104,7 +104,7 @@ struct ContentView: View {
                                 Text("Refresh")
                             }))
                         } else if self.router.currentView == "kart" {
-                            Text("Her kommer kartet")
+                            MapView()
                                 .navigationBarTitle("Kart", displayMode: .inline)
                         }
                     }
@@ -112,11 +112,20 @@ struct ContentView: View {
                 Spacer()
                 Divider()
                 HStack{ // Disse dataene må hentes inn! og justee skriftstørrelsen
-                    Text("Høyskolen Kristiania")
+                    Text("Din posisjon")
                         .padding(.leading)
                     Spacer()
-                    Text("59.911166, 10.744810")
-                        .padding(.trailing)
+                    VStack{
+                        let lat = "59.911166"
+                        let lon = "10.744810"
+                        if lat == "59.911166" && lon == "10.744810" {
+                        Text("Høyskolen Kristiania")
+                            .padding(.trailing)
+                        } else {
+                        Text(lat + ", " + lon)
+                            .padding(.trailing)
+                        }
+                    }
                 }
                 Divider()
                 // Maid a custom tab bar

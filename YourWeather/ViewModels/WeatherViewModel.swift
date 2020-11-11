@@ -38,21 +38,17 @@ class WeatherViewModel: ObservableObject {
         guard var symbolCode = weatherData?.properties.timeseries[0].data.nextHours?.summary.symbolCode else {
             return ""
         }
-        // Trengte DispachQueue her for at den skal rekke å ha fått inn dataene før denne koden kjører.
-        DispatchQueue.main.async {
-            for symbol in self.symbolData[0] {
-                if symbolCode.contains(symbol.key)  {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_night" {  //Sjekke om dette funker, ellers ta det bort eller fikse det.
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_day" {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_polartwilight" {
-                    symbolCode = symbol.value.descNb
-                }
+        for symbol in self.symbolData[0] {
+            if symbolCode.contains(symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {  //Sjekke om dette funker, ellers ta det bort eller fikse det.
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
             }
         }
-        
         
         return symbolCode
     }
@@ -77,21 +73,17 @@ class WeatherViewModel: ObservableObject {
             return ""
         }
         
-        DispatchQueue.main.async {
-            for symbol in self.symbolData[0] {
-                if symbolCode.contains(symbol.key)  {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_night" {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_day" {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_polartwilight" {
-                    symbolCode = symbol.value.descNb
-                }
+        for symbol in self.symbolData[0] {
+            if symbolCode.contains(symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
             }
         }
-        
-        
         return symbolCode
     }
     
@@ -114,21 +106,18 @@ class WeatherViewModel: ObservableObject {
         guard var symbolCode = weatherData?.properties.timeseries[0].data.next12Hours?.summary.symbolCode else {
             return ""
         }
-        DispatchQueue.main.async {
-            for symbol in self.symbolData[0] {
-                if symbolCode.contains(symbol.key)  {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_night" {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_day" {
-                    symbolCode = symbol.value.descNb
-                } else if symbolCode == symbol.key + "_polartwilight" {
-                    symbolCode = symbol.value.descNb
-                }
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode == (symbol.key)  {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_night" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_day" {
+                symbolCode = symbol.value.descNb
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                symbolCode = symbol.value.descNb
             }
         }
-        
-
         return symbolCode
     }
     
