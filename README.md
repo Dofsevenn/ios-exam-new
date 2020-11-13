@@ -10,6 +10,7 @@
 * DateFormatter: https://www.hackingwithswift.com/example-code/system/how-to-convert-dates-and-times-to-a-string-using-dateformatter
 * Api calls: https://www.hackingwithswift.com/books/ios-swiftui/understanding-swifts-result-type
 * Footer and router: https://blckbirds.com/post/custom-tab-bar-in-swiftui/
+* LocationManager: https://medium.com/@kiransjadhav111/corelocation-map-kit-get-the-users-current-location-set-a-pin-in-swift-edb12f9166b2
 
 
 ## Forutsetninger

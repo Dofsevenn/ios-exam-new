@@ -39,7 +39,7 @@ class WeatherViewModel: ObservableObject {
             return ""
         }
         for symbol in self.symbolData[0] {
-            if symbolCode.contains(symbol.key)  {
+            if symbolCode == (symbol.key)  {
                 symbolCode = symbol.value.descNb
             } else if symbolCode == symbol.key + "_night" {  //Sjekke om dette funker, ellers ta det bort eller fikse det.
                 symbolCode = symbol.value.descNb
@@ -74,7 +74,7 @@ class WeatherViewModel: ObservableObject {
         }
         
         for symbol in self.symbolData[0] {
-            if symbolCode.contains(symbol.key)  {
+            if symbolCode == (symbol.key)  {
                 symbolCode = symbol.value.descNb
             } else if symbolCode == symbol.key + "_night" {
                 symbolCode = symbol.value.descNb
