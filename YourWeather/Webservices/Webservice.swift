@@ -18,12 +18,13 @@ enum NetworkError: Error {
 // Fikse en egen getUpdatesUserLocation
 
 class Webservice: ObservableObject {
-    @ObservedObject private var locationManager = LocationManager()
-    var lat: String? = nil
-    var lon: String? = nil
+    @ObservedObject
+    var locationManager = LocationManager()
+    //var lat: String? = nil
+    //var lon: String? = nil
     
-    func getWeatherUpdatesKristiania(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
-        guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.911166&lon=10.744810#") else {
+    func getWeatherUpdates(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+        guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(lat)&lon=\(lon)#") else {
             completion(.failure(.UrlFault))
             return
         }
@@ -81,9 +82,18 @@ class Webservice: ObservableObject {
         }.resume()
     }
     
-    // Må fikse så jeg kan bruke denne når jeg får inn noen lat lon info
+    
+    // Denne skal ikke være nødvendig
     /*
-    func getWeatherUpdatesUserLocation(completion: @escaping (Result<Symbol, NetworkError>) -> Void) {
+    func getWeatherUpdatesUserLocation(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+        
+        //var lat = String(locationManager.location?.coordinate.latitude ?? 0)
+        //var lon = String(locationManager.location?.coordinate.longitude ?? 0)
+    
+        
+        print("\(lat)")
+        print("\(lon)")
+        
         guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(lat)&lon=\(lon)#") else {
             completion(.failure(.UrlFault))
             return
@@ -113,5 +123,5 @@ class Webservice: ObservableObject {
                 }
             }
         }.resume()
-    } */
+    }*/
 }

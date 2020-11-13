@@ -123,7 +123,7 @@ class WeatherViewModel: ObservableObject {
     
     func fetchWeatherData() {
         
-        Webservice().getWeatherUpdatesKristiania { result in
+        Webservice().getWeatherUpdates { result in
             switch result {
             case .success(let weatherData):
                 self.weatherData = weatherData
@@ -159,5 +159,24 @@ class WeatherViewModel: ObservableObject {
             }
         }
     }
+    /*
+    func fetchWeatherDataUserLocation() {
+        
+        Webservice().getWeatherUpdatesUserLocation { result in
+            switch result {
+            case .success(let weatherData):
+                self.weatherData = weatherData
+            case .failure(let error):
+                switch error {
+                case .UrlFault:
+                    print("Something wrong with the url")
+                case .getDataFailed:
+                    print("found no data")
+                case .decodingError:
+                    print("Something went wrong with the decoding")
+                }
+            }
+        }
+    } */
     
 }

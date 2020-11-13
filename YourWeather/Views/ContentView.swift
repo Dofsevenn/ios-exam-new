@@ -7,6 +7,7 @@
 
 import Combine
 import SwiftUI
+import MapKit
 
 // Ting som må følges opp underveis
 // Skrive Readme fila!
@@ -24,6 +25,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var weatherVM = WeatherViewModel()
     @ObservedObject var router = Router()
+    @ObservedObject var locationManager = LocationManager()
 
     init() {
         weatherVM.fetchWeatherSymbolInfo()
@@ -111,20 +113,23 @@ struct ContentView: View {
                 }
                 Spacer()
                 Divider()
-                HStack{ // Disse dataene må hentes inn! og justee skriftstørrelsen
+                if self.router.currentView == "detail" {
+                HStack{
                     Text("Din posisjon")
                         .padding(.leading)
                     Spacer()
                     VStack{
-                        let lat = "59.911166"
-                        let lon = "10.744810"
                         if lat == "59.911166" && lon == "10.744810" {
                         Text("Høyskolen Kristiania")
                             .padding(.trailing)
                         } else {
-                        Text(lat + ", " + lon)
+                            Text("\(lat),   \(lon)")
                             .padding(.trailing)
                         }
+                    }
+                }
+                } else {
+                    HStack{
                     }
                 }
                 Divider()
@@ -134,6 +139,7 @@ struct ContentView: View {
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 0, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         .onTapGesture {
                             self.router.currentView = "detail"
+                            weatherVM.fetchWeatherData()
                         }
             
                     Divider()
