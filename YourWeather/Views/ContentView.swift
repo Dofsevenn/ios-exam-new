@@ -47,6 +47,7 @@ struct ContentView: View {
                                             Text("\(weatherVM.instantTemperature, specifier: "%.1f")")
                                                 .padding()
                                             Text("\(weatherVM.instantText)")
+                                                .padding(.trailing)
                                         }
                                     }.frame(height: 60)
                                 }
@@ -56,6 +57,11 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
+                                            Image("\(weatherVM.iconImage)")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35, height: 35)
+                                                .padding(.trailing, 20)
                                             VStack{
                                                 Text("\(weatherVM.nextHourSummary)")
                                                     .padding(.bottom, 0.5)
@@ -63,7 +69,7 @@ struct ContentView: View {
                                                     Text("\(weatherVM.nextHourDetails, specifier: "%.1f")")
                                                     Text("\(weatherVM.nextHourPrecipitationText)")
                                                 }
-                                            }
+                                            }.padding(.trailing)
                                         }
                                     }.frame(height: 60)
                                 }
@@ -73,6 +79,11 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
+                                            Image("\(weatherVM.iconImage)")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35, height: 35)
+                                                .padding(.trailing, 20)
                                             VStack{
                                                 Text("\(weatherVM.next6HourSummary)")
                                                     .padding(.bottom, 0.5)
@@ -80,7 +91,7 @@ struct ContentView: View {
                                                     Text("\(weatherVM.next6HourDetails, specifier: "%.1f")")
                                                     Text("\(weatherVM.next6HourPrecipitationText)")
                                                 }
-                                            }
+                                            }.padding(.trailing)
                                         }
                                     }.frame(height: 60)
                                 }
@@ -90,18 +101,23 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
+                                            Image("\(weatherVM.iconImage)")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35, height: 35)
+                                                .padding(.trailing, 20)
                                             VStack{
                                                 Text("\(weatherVM.next12HorsSummary)")
-                                                    .padding(.bottom, 0.5)
-                                            }
+                                                    //.padding(.bottom, 0.5)
+                                            }.padding(.trailing)
                                         }
                                     }.frame(height: 60)
                                 }
                             }.environment(\.defaultMinListRowHeight, 60)
                             .navigationBarTitle("Værmelding", displayMode: .inline)
                             .navigationBarItems(trailing: Button(action: {
-                                weatherVM.fetchWeatherData()
                                 weatherVM.fetchWeatherSymbolInfo()
+                                weatherVM.fetchWeatherData()
                             }, label: {
                                 Text("Refresh")
                             }))
@@ -139,6 +155,7 @@ struct ContentView: View {
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 0, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         .onTapGesture {
                             self.router.currentView = "detail"
+                            weatherVM.fetchWeatherSymbolInfo()
                             weatherVM.fetchWeatherData()
                         }
             

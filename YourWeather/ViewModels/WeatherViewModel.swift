@@ -5,6 +5,8 @@
 //  Created by Kjetil Skylstad Bjelldokken on 02/11/2020.
 //
 
+// Lagen en variabel med closure med en switch som har alle mulighetene på norsk i forhold til symbolcode.
+
 //import Combine
 import Foundation
 import Dispatch
@@ -42,11 +44,11 @@ class WeatherViewModel: ObservableObject {
             if symbolCode == (symbol.key)  {
                 symbolCode = symbol.value.descNb
             } else if symbolCode == symbol.key + "_night" {  //Sjekke om dette funker, ellers ta det bort eller fikse det.
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (natt)"
             } else if symbolCode == symbol.key + "_day" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (dag)"
             } else if symbolCode == symbol.key + "_polartwilight" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (polar skumring)"
             }
         }
         
@@ -77,11 +79,11 @@ class WeatherViewModel: ObservableObject {
             if symbolCode == (symbol.key)  {
                 symbolCode = symbol.value.descNb
             } else if symbolCode == symbol.key + "_night" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (natt)"
             } else if symbolCode == symbol.key + "_day" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (dag)"
             } else if symbolCode == symbol.key + "_polartwilight" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (polar skumring)"
             }
         }
         return symbolCode
@@ -111,14 +113,35 @@ class WeatherViewModel: ObservableObject {
             if symbolCode == (symbol.key)  {
                 symbolCode = symbol.value.descNb
             } else if symbolCode == symbol.key + "_night" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (natt)"
             } else if symbolCode == symbol.key + "_day" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (dag)"
             } else if symbolCode == symbol.key + "_polartwilight" {
-                symbolCode = symbol.value.descNb
+                symbolCode = symbol.value.descNb + " (polar skumring)"
             }
         }
         return symbolCode
+    }
+    
+    var iconImage: String {
+        guard let symbolCode = weatherData?.properties.timeseries[0].data.next12Hours?.summary.symbolCode else {
+            return ""
+        }
+        var icon = ""
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode == symbol.key {
+                icon = symbol.key
+            } else if symbolCode == symbol.key + "_night" {
+                icon = symbol.key + "_night"
+            } else if symbolCode == symbol.key + "_day" {
+                icon = symbol.key + "_day"
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                icon = symbol.key + "_polartwilight"
+            }
+        }
+        
+        return icon
     }
     
     func fetchWeatherData() {
@@ -159,24 +182,5 @@ class WeatherViewModel: ObservableObject {
             }
         }
     }
-    /*
-    func fetchWeatherDataUserLocation() {
-        
-        Webservice().getWeatherUpdatesUserLocation { result in
-            switch result {
-            case .success(let weatherData):
-                self.weatherData = weatherData
-            case .failure(let error):
-                switch error {
-                case .UrlFault:
-                    print("Something wrong with the url")
-                case .getDataFailed:
-                    print("found no data")
-                case .decodingError:
-                    print("Something went wrong with the decoding")
-                }
-            }
-        }
-    } */
-    
+
 }

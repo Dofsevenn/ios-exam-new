@@ -5,6 +5,8 @@
 //  Created by Kjetil Skyldstad Bjelldokken on 11/11/2020.
 //
 
+//  Icon virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+
 import MapKit
 import SwiftUI
 import CoreLocation
@@ -26,17 +28,30 @@ struct MapView: View {
                 .onAppear {
                     manager.delegate = locationManager
                     manager.requestWhenInUseAuthorization()
+                    manager.requestAlwaysAuthorization()
                     if CLLocationManager.locationServicesEnabled() {
                         manager.startUpdatingLocation()
+                    }
+                    if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+                        print("authorized")
+                        weatherVM.fetchWeatherSymbolInfo()
+                        weatherVM.fetchWeatherData()
                     }
                 }
             
             HStack{
-                Text("Din posisjon:")
+                VStack{
+                Text("Breddegrad: \(manager.location?.coordinate.latitude ?? 0)")
                     .padding(.leading)
+                Text("Lengdegrad: \(manager.location?.coordinate.longitude ?? 0)")
+                    .padding(.leading)
+                }
                 Spacer()
-                Text("\(manager.location?.coordinate.latitude ?? 0),   \(manager.location?.coordinate.longitude ?? 0)")
-                    .padding(.trailing)
+                Image(weatherVM.iconImage) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
+                    .padding(20)
             }
         } else {
             // Fallback on earlier versions
