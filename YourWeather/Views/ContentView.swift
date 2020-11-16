@@ -57,11 +57,11 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
-                                            Image("\(weatherVM.iconImage)")
+                                            Image("\(weatherVM.iconImageNextHour)")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 35, height: 35)
-                                                .padding(.trailing, 20)
+                                                .padding(.trailing, 10)
                                             VStack{
                                                 Text("\(weatherVM.nextHourSummary)")
                                                     .padding(.bottom, 0.5)
@@ -79,11 +79,11 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
-                                            Image("\(weatherVM.iconImage)")
+                                            Image("\(weatherVM.iconImageNext6Hours)")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 35, height: 35)
-                                                .padding(.trailing, 20)
+                                                .padding(.trailing, 10)
                                             VStack{
                                                 Text("\(weatherVM.next6HourSummary)")
                                                     .padding(.bottom, 0.5)
@@ -101,11 +101,11 @@ struct ContentView: View {
                                         HStack{
                                             Text("Vær")
                                             Spacer()
-                                            Image("\(weatherVM.iconImage)")
+                                            Image("\(weatherVM.iconImageNext12Hours)")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 35, height: 35)
-                                                .padding(.trailing, 20)
+                                                .padding(.trailing, 10)
                                             VStack{
                                                 Text("\(weatherVM.next12HorsSummary)")
                                                     //.padding(.bottom, 0.5)

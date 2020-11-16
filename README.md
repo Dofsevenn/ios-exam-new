@@ -5,6 +5,8 @@
 * Swift versjon: 5.3
 * Skrevet i SwiftUI
 
+## Erfarings info når det kommer til Simulator
+
 ## Kilder og Referanser brukt som inspirasjon
 *  ObservableObject:  https://www.youtube.com/watch?v=xT4wGOc2jd4&t=660s   
 * DateFormatter: https://www.hackingwithswift.com/example-code/system/how-to-convert-dates-and-times-to-a-string-using-dateformatter

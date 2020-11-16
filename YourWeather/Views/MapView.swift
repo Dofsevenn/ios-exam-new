@@ -29,13 +29,9 @@ struct MapView: View {
                     manager.delegate = locationManager
                     manager.requestWhenInUseAuthorization()
                     manager.requestAlwaysAuthorization()
+                    //manager.distanceFilter = 1000 // Må se mer på denne
                     if CLLocationManager.locationServicesEnabled() {
                         manager.startUpdatingLocation()
-                    }
-                    if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-                        print("authorized")
-                        weatherVM.fetchWeatherSymbolInfo()
-                        weatherVM.fetchWeatherData()
                     }
                 }
             
@@ -47,7 +43,7 @@ struct MapView: View {
                     .padding(.leading)
                 }
                 Spacer()
-                Image(weatherVM.iconImage) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)
@@ -61,7 +57,7 @@ struct MapView: View {
 }
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    
+    @ObservedObject var weatherVM = WeatherViewModel()
     @Published var region = MKCoordinateRegion()
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -92,7 +88,15 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         setCurrentUserLocationCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
        
+        weatherVM.fetchWeatherSymbolInfo()
+        weatherVM.fetchWeatherData()
+        weatherVM.iconImageNextHour
+       
     }
+    
+    /*locationManager(_:didFailWithError:){
+        // Må fikse denne
+    }*/
 }
 
 struct MapView_Previews: PreviewProvider {

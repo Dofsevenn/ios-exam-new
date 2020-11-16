@@ -123,7 +123,47 @@ class WeatherViewModel: ObservableObject {
         return symbolCode
     }
     
-    var iconImage: String {
+    var iconImageNextHour: String {
+        guard let symbolCode = weatherData?.properties.timeseries[0].data.nextHours?.summary.symbolCode else {
+            return ""
+        }
+        var icon = ""
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode == symbol.key {
+                icon = symbol.key
+            } else if symbolCode == symbol.key + "_night" {
+                icon = symbol.key + "_night"
+            } else if symbolCode == symbol.key + "_day" {
+                icon = symbol.key + "_day"
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                icon = symbol.key + "_polartwilight"
+            }
+        }
+        return icon
+    }
+    
+    var iconImageNext6Hours: String {
+        guard let symbolCode = weatherData?.properties.timeseries[0].data.next6Hours?.summary.symbolCode else {
+            return ""
+        }
+        var icon = ""
+        
+        for symbol in self.symbolData[0] {
+            if symbolCode == symbol.key {
+                icon = symbol.key
+            } else if symbolCode == symbol.key + "_night" {
+                icon = symbol.key + "_night"
+            } else if symbolCode == symbol.key + "_day" {
+                icon = symbol.key + "_day"
+            } else if symbolCode == symbol.key + "_polartwilight" {
+                icon = symbol.key + "_polartwilight"
+            }
+        }
+        return icon
+    }
+    
+    var iconImageNext12Hours: String {
         guard let symbolCode = weatherData?.properties.timeseries[0].data.next12Hours?.summary.symbolCode else {
             return ""
         }
