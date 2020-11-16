@@ -12,6 +12,7 @@ import SwiftUI
 import CoreLocation
 
 struct MapView: View {
+
     @ObservedObject var weatherVM = WeatherViewModel()
     
     @State private var userTrackingMode: MapUserTrackingMode = .follow
@@ -19,46 +20,80 @@ struct MapView: View {
     @State var manager = CLLocationManager()
     @ObservedObject var locationManager = LocationManager()
     
+    @State var showAnnotationView = false
+    
+    //var map: Map<MapView>
+    
     var body: some View {
-        if #available(iOS 14.0, *) {
-            Map(coordinateRegion: $locationManager.region,
-                interactionModes: .all,
-                showsUserLocation: true,
-                userTrackingMode: $userTrackingMode)
-                .onAppear {
-                    manager.delegate = locationManager
-                    manager.requestWhenInUseAuthorization()
-                    manager.requestAlwaysAuthorization()
-                    //manager.distanceFilter = 1000 // Må se mer på denne
-                    if CLLocationManager.locationServicesEnabled() {
-                        manager.startUpdatingLocation()
-                    }
+        ZStack(){
+                if #available(iOS 14.0, *) {
+                    Map(coordinateRegion: $locationManager.region,
+                        interactionModes: .all,
+                        showsUserLocation: true,
+                        userTrackingMode: $userTrackingMode)
+                        .onAppear {
+                            manager.delegate = locationManager
+                            manager.requestWhenInUseAuthorization()
+                            manager.requestAlwaysAuthorization()
+                            manager.distanceFilter = 1000 // Må se mer på denne
+                            if CLLocationManager.locationServicesEnabled() {
+                                manager.startUpdatingLocation()
+                            }
+                            locationManager.weatherVM.fetchWeatherSymbolInfo()
+                            locationManager.weatherVM.fetchWeatherData()
+                        }
+                        
+                    
+                } else {
+                    // Fallback on earlier versions
+                    //Skrive kode her hvis jeg har tid og det er nødvendig for oppgaven
                 }
-            
-            HStack{
-                VStack{
-                Text("Breddegrad: \(manager.location?.coordinate.latitude ?? 0)")
-                    .padding(.leading)
-                Text("Lengdegrad: \(manager.location?.coordinate.longitude ?? 0)")
-                    .padding(.leading)
+            VStack{
+                HStack{
+                    Toggle(isOn: $showAnnotationView) {
+                    
+                    }.padding(30)
+                    Spacer()
                 }
                 Spacer()
-                Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 70, height: 70)
-                    .padding(20)
             }
-        } else {
-            // Fallback on earlier versions
-            //Skrive kode her hvis jeg har tid og det er nødvendig for oppgaven
+            if showAnnotationView {
+                //let longPress = UILongPressGestureRecognizer(target: self, action: #selector(Map.mapLongPress(_:)))
+                //longPress.minimumPressDuration = 1.5
+                
+            }
+            
+        }
+        HStack{
+            VStack{
+                Text("Breddegrad: \(manager.location?.coordinate.latitude ?? 0)")
+                    .padding(.leading)
+                    .padding(.bottom)
+                Text("Lengdegrad: \(manager.location?.coordinate.longitude ?? 0)")
+                    .padding(.leading)
+            }
+            Spacer()
+            Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                .resizable()
+                .scaledToFit()
+                .frame(width: 70, height: 70)
+                .padding(20)
         }
     }
+    
+    func mapLongPress(_ recognizer: UIGestureRecognizer) {
+        //print("Longpress has been detected")
+        
+        //let touchedAt = recognizer.location(in: self.map)
+    }
 }
+
+
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @ObservedObject var weatherVM = WeatherViewModel()
     @Published var region = MKCoordinateRegion()
+    @Published var newPin = MKPointAnnotation()
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
@@ -90,8 +125,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
        
         weatherVM.fetchWeatherSymbolInfo()
         weatherVM.fetchWeatherData()
-        weatherVM.iconImageNextHour
-       
+        
+        func annotations() {
+            newPin.coordinate = location.coordinate
+        }
     }
     
     /*locationManager(_:didFailWithError:){

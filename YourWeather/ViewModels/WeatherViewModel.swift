@@ -12,10 +12,9 @@ import Foundation
 import Dispatch
 
 class WeatherViewModel: ObservableObject {
-    @Published private var weatherData: WeatherResponse?
-    
     @Published private var symbolData = [Symbol]()
-
+    
+    @Published private var weatherData: WeatherResponse?
     
     // Instant properties
     var instantTemperature: Double {

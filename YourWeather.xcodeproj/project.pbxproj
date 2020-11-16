@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24600E522562AF07003E6F0A /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24600E512562AF07003E6F0A /* MapViewModel.swift */; };
 		2466989625497EF3002F0DEA /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2466989525497EF3002F0DEA /* Webservice.swift */; };
 		246698A025499719002F0DEA /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2466989F25499719002F0DEA /* Geometry.swift */; };
 		246698A6254998B2002F0DEA /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246698A5254998B2002F0DEA /* Properties.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24600E512562AF07003E6F0A /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		2466989525497EF3002F0DEA /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		2466989F25499719002F0DEA /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		246698A5254998B2002F0DEA /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				24981D922550454E00084C87 /* WeatherViewModel.swift */,
+				24600E512562AF07003E6F0A /* MapViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				246698AF2549A053002F0DEA /* WeatherResponse.swift in Sources */,
 				246698B62549A2F2002F0DEA /* Data.swift in Sources */,
 				246698A925499909002F0DEA /* Meta.swift in Sources */,
+				24600E522562AF07003E6F0A /* MapViewModel.swift in Sources */,
 				2488EEEC255B336A003225F8 /* Router.swift in Sources */,
 				246698C52549A935002F0DEA /* NextHour.swift in Sources */,
 				246698A025499719002F0DEA /* Geometry.swift in Sources */,
