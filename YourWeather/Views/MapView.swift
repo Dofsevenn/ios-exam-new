@@ -26,6 +26,7 @@ struct MapView: View {
     
     var body: some View {
         ZStack(){
+            
                 if #available(iOS 14.0, *) {
                     Map(coordinateRegion: $locationManager.region,
                         interactionModes: .all,
@@ -42,7 +43,6 @@ struct MapView: View {
                             locationManager.weatherVM.fetchWeatherSymbolInfo()
                             locationManager.weatherVM.fetchWeatherData()
                         }
-                        
                     
                 } else {
                     // Fallback on earlier versions
@@ -60,7 +60,17 @@ struct MapView: View {
             if showAnnotationView {
                 //let longPress = UILongPressGestureRecognizer(target: self, action: #selector(Map.mapLongPress(_:)))
                 //longPress.minimumPressDuration = 1.5
-                
+                MapViewTest()
+                .edgesIgnoringSafeArea(.all)
+                VStack{
+                    HStack{
+                        Toggle(isOn: $showAnnotationView) {
+                        
+                        }.padding(30)
+                        Spacer()
+                    }
+                    Spacer()
+                }
             }
             
         }
@@ -80,6 +90,7 @@ struct MapView: View {
                 .padding(20)
         }
     }
+    
     
     func mapLongPress(_ recognizer: UIGestureRecognizer) {
         //print("Longpress has been detected")
