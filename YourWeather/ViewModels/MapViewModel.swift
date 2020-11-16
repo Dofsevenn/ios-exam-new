@@ -56,7 +56,9 @@ final class WrappedMap: MKMapView {
 
 import SwiftUI
 import MapKit
-struct MapViewTest: UIViewRepresentable {
+struct MapViewModel: UIViewRepresentable {
+    @State var manager = CLLocationManager()
+    @ObservedObject var locationManager = LocationManager()
     @State private var annotation = MKPointAnnotation()
     
     func makeUIView(context: Context) -> MKMapView {
@@ -66,6 +68,13 @@ struct MapViewTest: UIViewRepresentable {
         return mapView
     }
     func updateUIView(_ uiView: MKMapView, context: Context) {
+        //let region = locationManager.region.center
+        
+        let center = CLLocationCoordinate2D(latitude: locationManager.region.center.latitude, longitude: locationManager.region.center.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 2.0, longitudeDelta: 2.0)
+        let region = MKCoordinateRegion(center: center, span: span)
+        uiView.setRegion(region, animated: true)
+        
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotation(annotation)
     }
@@ -75,10 +84,10 @@ struct MapViewTest: UIViewRepresentable {
         annotation = newAnnotation
     }
 }
-extension MapViewTest {
+extension MapViewModel {
     class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: MapViewTest
-        init(_ parent: MapViewTest) {
+        var parent: MapViewModel
+        init(_ parent: MapViewModel) {
             self.parent = parent
         }
     }
@@ -89,7 +98,7 @@ extension MapViewTest {
 
 struct MapViewTest_Previews: PreviewProvider {
     static var previews: some View {
-        MapViewTest()
+        MapViewModel()
         .edgesIgnoringSafeArea(.all)
     }
 }

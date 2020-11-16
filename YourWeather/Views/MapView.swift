@@ -60,7 +60,7 @@ struct MapView: View {
             if showAnnotationView {
                 //let longPress = UILongPressGestureRecognizer(target: self, action: #selector(Map.mapLongPress(_:)))
                 //longPress.minimumPressDuration = 1.5
-                MapViewTest()
+                MapViewModel()
                 .edgesIgnoringSafeArea(.all)
                 VStack{
                     HStack{
