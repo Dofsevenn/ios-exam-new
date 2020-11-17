@@ -17,6 +17,7 @@
 
 ## Kommentarer
 * Jeg valgte SwiftUI fordi jeg syns det er bedre å kode med, og for å gi meg selv en utfordring. Jeg hadde lyst til å se om jeg kunne bygge denne appen med det jeg mener er fremtidens iOS språk.
+* Når det kom til bruken av annotation for å trykke på et sted på kartet og få opp koordinater så fant jeg ut at SwiftUI ikke støtter dette (iallfall ikke som jeg kunne finne på nåværende tidspunkt). Dette tvinget meg til å bruke MKMapView fra UIKit. Men jeg fant ut at jeg kunne bruke UIViewRepresentable for å wrappe MKMapview sånn at jeg kunne bruke den i SwifUI view. Dette gjorde også at jeg kunne bruke @binding for å oppdatere coordinatverdiene i info felte når de endret seg ved trykk (longpress) på kartet.
 
 ## Utfordringer/ error jeg har møtt på underveis
 * Hvis jeg kjørte koden i simulatoren rundt kl 00:00 på natten, så fikk jeg ofte en feilmelding på at self.symbolData[0] var "out of range". Jeg kunne ha sittet hele dagen og brukt simulatoren, og uten å ha gjort noen endringer kom den feilmelingen i området rundt kl 00:00. Jeg lurer på om det er noe med api'et og at de gjør noen endrigner oppdateringer rundt da. Men fikk ikke samme feilmelding da jeg kjørte på telefonen. Hvis jeg prøvde koden dagen etter på dagtid virket alt igjen uten at jeg gjorde noen endringer.
