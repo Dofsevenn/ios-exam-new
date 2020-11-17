@@ -11,7 +11,7 @@ import MapKit
 import SwiftUI
 import CoreLocation
 
-struct MapView: View {
+struct MapView: View {    // Sjekke om jeg får tak i ICon gjennom MapViewModel
 
     @ObservedObject var weatherVM = WeatherViewModel()
     
@@ -22,6 +22,7 @@ struct MapView: View {
     
     @State var showAnnotationView = false
     @State var annotation = MKPointAnnotation()
+    @State var weatherIcon = ""
     
     //var map: Map<MapView>
     
@@ -59,10 +60,8 @@ struct MapView: View {
                 Spacer()
             }
             if showAnnotationView {
-                //let longPress = UILongPressGestureRecognizer(target: self, action: #selector(Map.mapLongPress(_:)))
-                //longPress.minimumPressDuration = 1.5
                 
-                MapViewModel(annotation: $annotation)
+                MapViewModel(annotation: $annotation, weatherIcon: $weatherIcon)
                     //.edgesIgnoringSafeArea(.all)
             
                 VStack{
@@ -87,7 +86,7 @@ struct MapView: View {
                         .padding(.leading)
                 }
                 Spacer()
-                Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                Image("\(weatherIcon)") // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)

@@ -11,14 +11,15 @@
 * Api calls: https://www.hackingwithswift.com/books/ios-swiftui/understanding-swifts-result-type
 * Footer and router: https://blckbirds.com/post/custom-tab-bar-in-swiftui/
 * LocationManager: https://medium.com/@kiransjadhav111/corelocation-map-kit-get-the-users-current-location-set-a-pin-in-swift-edb12f9166b2
-* For å bruke UIViewRepresentable: https://www.hackingwithswift.com/books/ios-swiftui/advanced-mkmapview-with-swiftui
+* For å bruke UIViewRepresentable: https://www.youtube.com/watch?v=Ek_r-7aRp3A
 
 ## Forutsetninger
 * Dere har skrevet i oppgave 1 at "alt på eksempelbildet skal hentes fra api'et", men jeg forutsetter at det ikke gjelder de statiske ordene
 
-## Kommentarer
+## Kommentarer/ Valg jeg har gjort
 * Jeg valgte SwiftUI fordi jeg syns det er bedre å kode med, og for å gi meg selv en utfordring. Jeg hadde lyst til å se om jeg kunne bygge denne appen med det jeg mener er fremtidens iOS språk.
-* Når det kom til bruken av annotation for å trykke på et sted på kartet og få opp koordinater så fant jeg ut at SwiftUI ikke støtter dette (iallfall ikke som jeg kunne finne på nåværende tidspunkt). Dette tvinget meg til å bruke MKMapView fra UIKit. Men jeg fant ut at jeg kunne bruke UIViewRepresentable for å wrappe MKMapview sånn at jeg kunne bruke den i SwifUI view. Dette gjorde også at jeg kunne bruke @binding for å oppdatere coordinatverdiene i info felte når de endret seg ved trykk (longpress) på kartet.
+* Når det kom til bruken av annotation for å trykke på et sted på kartet og få opp koordinater så fant jeg ut at SwiftUI ikke støtter dette (iallfall ikke som jeg kunne finne på nåværende tidspunkt). Dette tvang meg til å bruke MKMapView fra UIKit. Men jeg fant ut at jeg kunne bruke UIViewRepresentable for å wrappe MKMapview sånn at jeg kunne bruke den i SwifUI view. Dette gjorde også at jeg kunne bruke @binding for å oppdatere coordinatverdiene i info felte når de endret seg ved trykk (longpress) på kartet.
+* Videre på annotation så valgte jeg å ikke bruke noen region med zoom da dette bare forstyrret opplevelsen. Sånn som jeg har det nå så kan bruker velge selv hvor nære han/hun vil zoome.
 
 ## Utfordringer/ error jeg har møtt på underveis
 * Hvis jeg kjørte koden i simulatoren rundt kl 00:00 på natten, så fikk jeg ofte en feilmelding på at self.symbolData[0] var "out of range". Jeg kunne ha sittet hele dagen og brukt simulatoren, og uten å ha gjort noen endringer kom den feilmelingen i området rundt kl 00:00. Jeg lurer på om det er noe med api'et og at de gjør noen endrigner oppdateringer rundt da. Men fikk ikke samme feilmelding da jeg kjørte på telefonen. Hvis jeg prøvde koden dagen etter på dagtid virket alt igjen uten at jeg gjorde noen endringer.

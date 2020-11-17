@@ -73,4 +73,37 @@ class Webservice {
             }
         }.resume()
     }
+    
+    // I made a new api call function here just to seperate it from the userLocation coordinate call. I also did it because I had to use UIKit for the annotation part, and I didn't want any problems from interract between SwiftUI and UIKit. There is probably a bether, and less re-use of code, way to do this.
+    func getWeatherUpdatesAnnotations(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+        guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(annotationLat)&lon=\(annotationLon)#") else {
+            completion(.failure(.UrlFault))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            DispatchQueue.main.async {
+                guard let data = data, error == nil else {
+                    completion(.failure(.getDataFailed))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                
+                // Formatting the date from String to Date
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                decoder.dateDecodingStrategy = .formatted(formatter)
+                
+                let weather = try? decoder.decode(WeatherResponse.self, from: data)
+            
+                if let weather = weather {
+                    completion(.success(weather))
+                } else {
+                    completion(.failure(.decodingError))
+                }
+            }
+        }.resume()
+    }
 }

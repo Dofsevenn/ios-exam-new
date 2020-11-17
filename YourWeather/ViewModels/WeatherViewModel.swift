@@ -183,6 +183,7 @@ class WeatherViewModel: ObservableObject {
         return icon
     }
     
+    // Fetching data with the userlocation coordinates
     func fetchWeatherData() {
         
         Webservice().getWeatherUpdates { result in
@@ -202,6 +203,7 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
+    // Fetchin the the weather Symbol Info
     func fetchWeatherSymbolInfo() {
         
         Webservice().getWeatherSymbolsInfo { result in
@@ -209,6 +211,26 @@ class WeatherViewModel: ObservableObject {
             case .success(let symbolInfo):
                 self.symbolData.append(symbolInfo)
                 print(self.symbolData)
+            case .failure(let error):
+                switch error {
+                case .UrlFault:
+                    print("Something wrong with the url")
+                case .getDataFailed:
+                    print("found no data")
+                case .decodingError:
+                    print("Something went wrong with the decoding")
+                }
+            }
+        }
+    }
+    
+    // Fetching data with the annotation coordinates
+    func fetchWeatherDataAnnotation() {
+        
+        Webservice().getWeatherUpdatesAnnotations { result in
+            switch result {
+            case .success(let weatherData):
+                self.weatherData = weatherData
             case .failure(let error):
                 switch error {
                 case .UrlFault:
