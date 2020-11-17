@@ -5,13 +5,11 @@
 //  Created by Kjetil Skyldstad Bjelldokken on 11/11/2020.
 //
 
-//  Icon virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
-
 import MapKit
 import SwiftUI
 import CoreLocation
 
-struct MapView: View {    // Sjekke om jeg får tak i ICon gjennom MapViewModel
+struct MapView: View {
 
     @ObservedObject var weatherVM = WeatherViewModel()
     

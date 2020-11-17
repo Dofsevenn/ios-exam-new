@@ -51,15 +51,6 @@ struct MapViewModel: UIViewRepresentable {
         
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotation(annotation)
-        /*
-        Tror det er best uten denne. Virker mer stabilt
-         
-        let center = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: 10.0, longitudeDelta: 10.0)
-        let region = MKCoordinateRegion(center: center, span: span)
-        uiView.setRegion(region, animated: true)
-        */
-        print(annotationLat)
     }
     func addAnnotation(for coordinate: CLLocationCoordinate2D) {
         let newAnnotation = MKPointAnnotation()
@@ -67,8 +58,6 @@ struct MapViewModel: UIViewRepresentable {
         annotation = newAnnotation
         
         setAnnotationsCoordinates(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-        print(annotation.coordinate.latitude)
-        print(annotation.coordinate.longitude)
         
         weatherWM.fetchWeatherSymbolInfo()
         weatherWM.fetchWeatherDataAnnotation()
@@ -88,7 +77,7 @@ extension MapViewModel {
     }
 } 
 
-/*
+/* Commented out these when I didn't used it
 struct MapViewTest_Previews: PreviewProvider {
     static var previews: some View {
         MapViewModel()

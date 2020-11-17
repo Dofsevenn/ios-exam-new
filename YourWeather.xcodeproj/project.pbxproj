@@ -120,7 +120,6 @@
 			children = (
 				24853E5C2546E3FA00F2495C /* AppDelegate.swift */,
 				24853E5E2546E3FA00F2495C /* SceneDelegate.swift */,
-				24B3FC2A255C824100FC2F66 /* Manager */,
 				2466989B2549964A002F0DEA /* Models */,
 				2488EEEA255B2C2F003225F8 /* Router */,
 				2488EEE5255B2BCE003225F8 /* Views */,
@@ -174,13 +173,6 @@
 				2488EEEB255B336A003225F8 /* Router.swift */,
 			);
 			path = Router;
-			sourceTree = "<group>";
-		};
-		24B3FC2A255C824100FC2F66 /* Manager */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

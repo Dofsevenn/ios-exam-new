@@ -13,13 +13,13 @@ import MapKit
 // Skrive Readme fila!
 
 // Hva trengs å gjøres i neste steg:
-// Sjekke om alt på oppgave 1 er løst
-// Wrappe WeatherViewModel i en gruppemappe
+// Må vise feilmelding til bruker hvis netverkskallet feiler
+// Må fikse denne locationManager(_:didFailWithError:)
 // Gå til neste oppgave hvis alt på oppgaven er løst
-
-// Lage routeren og tapgesture til knappene i bunnen Oppgave 2
+// Starte på oppgave 4
 
 // Ting som kan vente:
+// Sjekke opp buggen om at hvis man har satt ned en pin i toggle modus, så må man trykke 2 ganger på værmeldings knappen for at man skal komme tilbake dit.
 // Refakturerer WeatherViewModel properties
 
 struct ContentView: View {

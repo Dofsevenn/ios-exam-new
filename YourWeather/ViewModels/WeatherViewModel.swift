@@ -13,8 +13,8 @@ import Dispatch
 
 class WeatherViewModel: ObservableObject {
     @Published private var symbolData = [Symbol]()
-    
     @Published private var weatherData: WeatherResponse?
+    //@Published private var showingAlert = false  // Denne skal brukes til å display'e alert med error.
     
     // Instant properties
     var instantTemperature: Double {
