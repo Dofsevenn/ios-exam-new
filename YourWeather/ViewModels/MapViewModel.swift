@@ -135,7 +135,7 @@ import MapKit
 struct MapViewModel: UIViewRepresentable {
     @State var manager = CLLocationManager()
     @ObservedObject var locationManager = LocationManager()
-    @State private var annotation = MKPointAnnotation()
+    @Binding var annotation: MKPointAnnotation
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = WrappedMap()
@@ -153,11 +153,18 @@ struct MapViewModel: UIViewRepresentable {
         let span = MKCoordinateSpan(latitudeDelta: 10.0, longitudeDelta: 10.0)
         let region = MKCoordinateRegion(center: center, span: span)
         uiView.setRegion(region, animated: true)
+        
+        
+        print(annotationLat)
     }
     func addAnnotation(for coordinate: CLLocationCoordinate2D) {
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = coordinate
         annotation = newAnnotation
+        
+        setAnnotationsCoordinates(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+        print(annotation.coordinate.latitude)
+        print(annotation.coordinate.longitude)
     }
 }
 extension MapViewModel {
@@ -172,10 +179,11 @@ extension MapViewModel {
     }
 }
 
+/*
 struct MapViewTest_Previews: PreviewProvider {
     static var previews: some View {
         MapViewModel()
         .edgesIgnoringSafeArea(.all)
     }
-}
+}*/
 

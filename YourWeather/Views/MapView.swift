@@ -21,6 +21,7 @@ struct MapView: View {
     @ObservedObject var locationManager = LocationManager()
     
     @State var showAnnotationView = false
+    @State var annotation = MKPointAnnotation()
     
     //var map: Map<MapView>
     
@@ -61,7 +62,7 @@ struct MapView: View {
                 //let longPress = UILongPressGestureRecognizer(target: self, action: #selector(Map.mapLongPress(_:)))
                 //longPress.minimumPressDuration = 1.5
                 
-                MapViewModel()
+                MapViewModel(annotation: $annotation)
                 
                 //MapViewTest2(annotations: MKAnnotation, addAnnotationListener: MKAnnotation)
                 //.edgesIgnoringSafeArea(.all)
@@ -77,6 +78,23 @@ struct MapView: View {
             }
             
         }
+        if showAnnotationView {
+            HStack{
+                VStack{
+                    Text("Breddegrad: \(annotation.coordinate.latitude)")
+                        .padding(.leading)
+                        .padding(.bottom)
+                    Text("Lengdegrad: \(annotation.coordinate.longitude)")
+                        .padding(.leading)
+                }
+                Spacer()
+                Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
+                    .padding(20)
+            }
+        } else {
         HStack{
             VStack{
                 Text("Breddegrad: \(manager.location?.coordinate.latitude ?? 0)")
@@ -91,6 +109,7 @@ struct MapView: View {
                 .scaledToFit()
                 .frame(width: 70, height: 70)
                 .padding(20)
+        }
         }
     }
     
@@ -139,10 +158,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
        
         weatherVM.fetchWeatherSymbolInfo()
         weatherVM.fetchWeatherData()
-        
-        func annotations() {
-            newPin.coordinate = location.coordinate
-        }
     }
     
     /*locationManager(_:didFailWithError:){
