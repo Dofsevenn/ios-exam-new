@@ -63,9 +63,8 @@ struct MapView: View {
                 //longPress.minimumPressDuration = 1.5
                 
                 MapViewModel(annotation: $annotation)
-                
-                //MapViewTest2(annotations: MKAnnotation, addAnnotationListener: MKAnnotation)
-                //.edgesIgnoringSafeArea(.all)
+                    //.edgesIgnoringSafeArea(.all)
+            
                 VStack{
                     HStack{
                         Toggle(isOn: $showAnnotationView) {

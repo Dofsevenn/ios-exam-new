@@ -11,6 +11,7 @@
 * Api calls: https://www.hackingwithswift.com/books/ios-swiftui/understanding-swifts-result-type
 * Footer and router: https://blckbirds.com/post/custom-tab-bar-in-swiftui/
 * LocationManager: https://medium.com/@kiransjadhav111/corelocation-map-kit-get-the-users-current-location-set-a-pin-in-swift-edb12f9166b2
+* For å bruke UIViewRepresentable: https://www.hackingwithswift.com/books/ios-swiftui/advanced-mkmapview-with-swiftui
 
 ## Forutsetninger
 * Dere har skrevet i oppgave 1 at "alt på eksempelbildet skal hentes fra api'et", men jeg forutsetter at det ikke gjelder de statiske ordene
