@@ -150,6 +150,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations[0] as CLLocation
         self.callback?.onLocationReceived(coordinate: location)
+        
        // let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
        // let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
        // let region = MKCoordinateRegion(center: center, span: span)
