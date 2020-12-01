@@ -13,23 +13,29 @@ import MapKit
 // Skrive Readme fila!
 
 // Hva trengs å gjøres i neste steg:
-// Må vise feilmelding til bruker hvis netverkskallet feiler
-// Må fikse denne locationManager(_:didFailWithError:)
-// Gå til neste oppgave hvis alt på oppgaven er løst
-// Starte på oppgave 4
+// Enkel værmelding som viser om det blir regn neste 12 timer
+// I så fall gi beskjed om at bruker må ha med paraply.
+// Ta utgangspunkt i brukers posisjon
+// Hvis hvilken dag det gjelder for
+// Denne info skal lagres på disk
+// Easter egg. Animasjon se oppgave tekst
+
+// Ting som må gjøres før levering:
+// Kommentere hvor jeg har tatt kode fra
+
 
 // Ting som kan vente:
-// Sjekke opp buggen om at hvis man har satt ned en pin i toggle modus, så må man trykke 2 ganger på værmeldings knappen for at man skal komme tilbake dit.
+// Sjekke opp buggen om at man må trykke 2 ganger på værmeldngs knappen i toggle modus på kart for at det skal skje noe
 // Refakturerer WeatherViewModel properties
 
 struct ContentView: View {
     @ObservedObject var weatherVM = WeatherViewModel()
     @ObservedObject var router = Router()
     @ObservedObject var locationManager = LocationManager()
+    @State var isLoaded = true
 
     init() {
-        weatherVM.fetchWeatherSymbolInfo()
-        weatherVM.fetchWeatherData()
+        
     }
     
     var body: some View {
@@ -37,7 +43,11 @@ struct ContentView: View {
             VStack{
                 NavigationView {
                     VStack {
-                        if self.router.currentView == "detail" {
+                        if self.router.currentView == "home" {
+                            HomeView(isLoaded: $isLoaded)
+                                .navigationBarTitle("Hjem", displayMode: .inline)
+                            
+                        } else if self.router.currentView == "detail" {
                             List(){
                                 Section(header: Text("Nå")) {
                                     VStack() {
@@ -50,6 +60,7 @@ struct ContentView: View {
                                                 .padding(.trailing)
                                         }
                                     }.frame(height: 60)
+                                    
                                 }
                                 
                                 Section(header: Text("Neste time")) {
@@ -121,11 +132,17 @@ struct ContentView: View {
                             }, label: {
                                 Text("Refresh")
                             }))
-                        } else if self.router.currentView == "kart" {
+                        } else if self.router.currentView == "map" {
                             MapView()
                                 .navigationBarTitle("Kart", displayMode: .inline)
+                            
                         }
                     }
+                }.alert(item: $weatherVM.error) { error in
+                    Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .cancel())
+                }.onAppear() {
+                    weatherVM.fetchWeatherSymbolInfo()
+                    weatherVM.fetchWeatherData()
                 }
                 Spacer()
                 Divider()
@@ -151,6 +168,14 @@ struct ContentView: View {
                 Divider()
                 // Maid a custom tab bar
                 HStack {
+                    Text("Hjem")
+                        .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 0, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                        .onTapGesture {
+                            self.router.currentView = "home"
+                        }
+                    
+                    Divider()
+                    
                     Text("Værmelding")
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 0, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         .onTapGesture {
@@ -164,7 +189,7 @@ struct ContentView: View {
                     Text("Kart")
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 0, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         .onTapGesture {
-                            self.router.currentView = "kart"
+                            self.router.currentView = "map"
                         }
                 }.frame(width: geometry.size.width, height: geometry.size.height/15)
             }

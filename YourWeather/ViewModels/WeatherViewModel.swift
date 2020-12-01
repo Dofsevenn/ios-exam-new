@@ -14,7 +14,7 @@ import Dispatch
 class WeatherViewModel: ObservableObject {
     @Published private var symbolData = [Symbol]()
     @Published private var weatherData: WeatherResponse?
-    //@Published private var showingAlert = false  // Denne skal brukes til å display'e alert med error.
+    @Published var error: NetworkError?
     
     // Instant properties
     var instantTemperature: Double {
@@ -183,6 +183,25 @@ class WeatherViewModel: ObservableObject {
         return icon
     }
     
+    var showWetherIconHome: String {
+        var icon = ""
+        
+        guard let symbolCode = weatherData?.properties.timeseries[0].data.next12Hours?.summary.symbolCode else {
+            return ""
+        }
+        
+        if symbolCode.contains("rain") {
+            icon = "umbrella.fill"
+        } else {
+            icon = "clearsky_day"
+        }
+        
+        return icon
+        print("icon is:" + icon)
+    }
+    
+    
+    
     // Fetching data with the userlocation coordinates
     func fetchWeatherData() {
         
@@ -197,8 +216,10 @@ class WeatherViewModel: ObservableObject {
                 case .getDataFailed:
                     print("found no data")
                 case .decodingError:
-                    print("Something went wrong with the decoding")
+                    print("Something went wrong with decoding")
                 }
+                self.error = error
+                
             }
         }
     }
@@ -218,8 +239,9 @@ class WeatherViewModel: ObservableObject {
                 case .getDataFailed:
                     print("found no data")
                 case .decodingError:
-                    print("Something went wrong with the decoding")
+                    print("Something went wrong with decoding")
                 }
+                self.error = error
             }
         }
     }
@@ -238,8 +260,31 @@ class WeatherViewModel: ObservableObject {
                 case .getDataFailed:
                     print("found no data")
                 case .decodingError:
-                    print("Something went wrong with the decoding")
+                    print("Something went wrong with decoding")
                 }
+                self.error = error
+            }
+        }
+    }
+    
+    // Fetching data with the userlocation coordinates
+    func fetchWeatherDataHome() {
+        
+        Webservice().getWeatherUpdatesHome { result in
+            switch result {
+            case .success(let weatherData):
+                self.weatherData = weatherData
+            case .failure(let error):
+                switch error {
+                case .UrlFault:
+                    print("Something wrong with the url")
+                case .getDataFailed:
+                    print("found no data")
+                case .decodingError:
+                    print("Something went wrong with decoding")
+                }
+                self.error = error
+                
             }
         }
     }

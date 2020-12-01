@@ -7,13 +7,24 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, LocalizedError, Identifiable {
+    
     case UrlFault
     case getDataFailed
     case decodingError
+    
+    var id: String { localizedDescription }
+    
+    var errorDescription: String? {
+        switch self {
+        case .UrlFault: return "Something wrong with the url"
+        case .getDataFailed: return "found no data"
+        case .decodingError: return "Something went wrong with decoding"
+        }
+    }
 }
 
-class Webservice {
+class Webservice: Identifiable {
     
     func getWeatherUpdates(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
         guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(lat)&lon=\(lon)#") else {
@@ -42,6 +53,7 @@ class Webservice {
                     completion(.success(weather))
                 } else {
                     completion(.failure(.decodingError))
+                    
                 }
             }
         }.resume()
@@ -102,6 +114,40 @@ class Webservice {
                     completion(.success(weather))
                 } else {
                     completion(.failure(.decodingError))
+                }
+            }
+        }.resume()
+    }
+    
+    // I made another api call function here to seperate the calls to HomeView. This is so that Kristiania still is going  to be the first forcast on "Værmelding" page. I think there is better ways to do this, but I did not have more time because of covid-19.
+    func getWeatherUpdatesHome(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+        guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(homeLat)&lon=\(homeLon)#") else {
+            completion(.failure(.UrlFault))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            DispatchQueue.main.async {
+                guard let data = data, error == nil else {
+                    completion(.failure(.getDataFailed))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                
+                // Formatting the date from String to Date
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                decoder.dateDecodingStrategy = .formatted(formatter)
+                
+                let weather = try? decoder.decode(WeatherResponse.self, from: data)
+            
+                if let weather = weather {
+                    completion(.success(weather))
+                } else {
+                    completion(.failure(.decodingError))
+                    
                 }
             }
         }.resume()

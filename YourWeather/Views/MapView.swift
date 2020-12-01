@@ -40,8 +40,8 @@ struct MapView: View {
                             if CLLocationManager.locationServicesEnabled() {
                                 manager.startUpdatingLocation()
                             }
-                            locationManager.weatherVM.fetchWeatherSymbolInfo()
-                            locationManager.weatherVM.fetchWeatherData()
+                            weatherVM.fetchWeatherSymbolInfo()
+                            weatherVM.fetchWeatherData()
                         }
                     
                 } else {
@@ -100,7 +100,7 @@ struct MapView: View {
                     .padding(.leading)
             }
             Spacer()
-            Image(locationManager.weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+            Image(weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
                 .resizable()
                 .scaledToFit()
                 .frame(width: 70, height: 70)
@@ -109,20 +109,24 @@ struct MapView: View {
         }
     }
     
-    
+    /*
     func mapLongPress(_ recognizer: UIGestureRecognizer) {
         //print("Longpress has been detected")
         
         //let touchedAt = recognizer.location(in: self.map)
-    }
+    }*/
 }
 
-
+protocol LocationCallbackProtocol {
+    func onLocationReceived(coordinate: CLLocation)
+}
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    var callback: LocationCallbackProtocol?
     @ObservedObject var weatherVM = WeatherViewModel()
     @Published var region = MKCoordinateRegion()
     @Published var newPin = MKPointAnnotation()
+    @ObservedObject var router = Router()
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
@@ -145,20 +149,26 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations[0] as CLLocation
+        self.callback?.onLocationReceived(coordinate: location)
+       // let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+       // let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+       // let region = MKCoordinateRegion(center: center, span: span)
         
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-        let region = MKCoordinateRegion(center: center, span: span)
-        
-        setCurrentUserLocationCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
        
-        weatherVM.fetchWeatherSymbolInfo()
-        weatherVM.fetchWeatherData()
+            setCurrentUserLocationCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+            //weatherVM.fetchWeatherSymbolInfo()
+            //weatherVM.fetchWeatherData()
+       
+        
     }
     
-    /*locationManager(_:didFailWithError:){
-        // Må fikse denne
-    }*/
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let error =  error as? CLError, error.code == .denied {
+            manager.stopUpdatingLocation()
+            return
+        }
+    }
 }
 
 struct MapView_Previews: PreviewProvider {

@@ -8,6 +8,8 @@ import MapKit
 import SwiftUI
 import Foundation
 import CoreLocation
+
+// Koden i denne filen er funnet på nettet og tilpasset til at det fungerer hos meg
   
 // Kikke på CLGeocoder og se om det er noe jeg trenger å ha med.
 import Foundation
@@ -17,7 +19,7 @@ final class WrappedMap: MKMapView {
     init() {
         super.init(frame: .zero)
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        gestureRecognizer.minimumPressDuration = 0.8
+        gestureRecognizer.minimumPressDuration = 0.5
         addGestureRecognizer(gestureRecognizer)
     }
     @objc func handleTap(sender: UILongPressGestureRecognizer) {
@@ -52,6 +54,7 @@ struct MapViewModel: UIViewRepresentable {
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotation(annotation)
     }
+    
     func addAnnotation(for coordinate: CLLocationCoordinate2D) {
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = coordinate
@@ -61,8 +64,7 @@ struct MapViewModel: UIViewRepresentable {
         
         weatherWM.fetchWeatherSymbolInfo()
         weatherWM.fetchWeatherDataAnnotation()
-        weatherIcon = weatherWM.iconImageNextHour
-        
+            weatherIcon = weatherWM.iconImageNextHour
     }
 }
 extension MapViewModel {
