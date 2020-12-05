@@ -32,7 +32,7 @@ struct ContentView: View {
     @ObservedObject var weatherVM = WeatherViewModel()
     @ObservedObject var router = Router()
     @ObservedObject var locationManager = LocationManager()
-    @State var isLoaded = true
+    //@State var isLoaded = true
 
     init() {
         
@@ -44,8 +44,8 @@ struct ContentView: View {
                 NavigationView {
                     VStack {
                         if self.router.currentView == "home" {
-                            HomeView(isLoaded: $isLoaded)
-                                .navigationBarTitle("Hjem", displayMode: .inline)
+                            //HomeView(isLoaded: $isLoaded)
+                                //.navigationBarTitle("Hjem", displayMode: .inline)
                             
                         } else if self.router.currentView == "detail" {
                             List(){

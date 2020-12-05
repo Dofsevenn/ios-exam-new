@@ -4,24 +4,26 @@
 //
 //  Created by Kjetil Skyldstad Bjelldokken on 30/11/2020.
 //
-
+import Combine
 import SwiftUI
 import CoreLocation
 
-struct HomeView: View, LocationCallbackProtocol {
+struct HomeView: View {
     
     func onLocationReceived(coordinate: CLLocation) {
-        locationManager.weatherVM.fetchWeatherSymbolInfo()
-        locationManager.weatherVM.fetchWeatherData()
+        //if coordinate != coordinate.last {
+            locationManager.weatherVM.fetchWeatherSymbolInfo()
+            locationManager.weatherVM.fetchWeatherData()
+       //}
     }
     
-    @Binding var isLoaded: Bool
+    //@Binding var isLoaded: Bool
     //@ObservedObject var weatherVM = WeatherViewModel()
     
     @State var manager = CLLocationManager()
     @ObservedObject var locationManager = LocationManager()
     //@State var weatherIcon = ""
-    private var weatherIcon: String { isLoaded ? "clearsky_day" : "clearsky_night"}
+   // private var weatherIcon: String { isLoaded ? "clearsky_day" : "clearsky_night"}
     
     /* init() {
         manager.delegate = locationManager
@@ -39,16 +41,16 @@ struct HomeView: View, LocationCallbackProtocol {
             Spacer()
             Text("Mandag")
                 .font(.system(size: 40))
-            if isLoaded == true {
+            //if isLoaded == true {
                 Image("\(locationManager.weatherVM.showWetherIconHome)")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)
                     .padding(20)
-            }
+           // }
             
             Spacer()
-            Image(systemName: weatherIcon)
+            Image(systemName: "unbrella-fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 300, height: 300)
@@ -71,10 +73,8 @@ struct HomeView: View, LocationCallbackProtocol {
     }
 }
 
-/*
-struct SwiftUIView_Previews: PreviewProvider {
-  
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
-}*/
+}

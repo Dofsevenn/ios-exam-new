@@ -4,8 +4,9 @@
 //
 //  Created by Kjetil Skylstad Bjelldokken on 28/10/2020.
 //
-
+import Combine
 import Foundation
+import SwiftUI
 
 enum NetworkError: Error, LocalizedError, Identifiable {
     
@@ -25,6 +26,9 @@ enum NetworkError: Error, LocalizedError, Identifiable {
 }
 
 class Webservice: Identifiable {
+    @ObservedObject var locationManager = LocationManager()
+    
+    
     
     func getWeatherUpdates(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
         guard let url = URL(string: "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\(lat)&lon=\(lon)#") else {

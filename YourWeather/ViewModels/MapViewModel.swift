@@ -4,6 +4,7 @@
 //
 //  Created by Kjetil Skyldstad Bjelldokken on 16/11/2020.
 //
+import Combine
 import MapKit
 import SwiftUI
 import Foundation

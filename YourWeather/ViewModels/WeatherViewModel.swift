@@ -7,7 +7,7 @@
 
 // Lagen en variabel med closure med en switch som har alle mulighetene på norsk i forhold til symbolcode.
 
-//import Combine
+import Combine
 import Foundation
 import Dispatch
 
@@ -195,9 +195,9 @@ class WeatherViewModel: ObservableObject {
         } else {
             icon = "clearsky_day"
         }
-        
-        return icon
         print("icon is:" + icon)
+        return icon
+        
     }
     
     
@@ -219,7 +219,6 @@ class WeatherViewModel: ObservableObject {
                     print("Something went wrong with decoding")
                 }
                 self.error = error
-                
             }
         }
     }

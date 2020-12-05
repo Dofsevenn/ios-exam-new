@@ -10,5 +10,5 @@ import SwiftUI
 import Combine
 
 class Router: ObservableObject {
-    @Published var currentView = "home"
+    @Published var currentView = "detail"
 }
