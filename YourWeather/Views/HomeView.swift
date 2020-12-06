@@ -25,7 +25,7 @@ struct HomeView: View {
     //@State var weatherIcon = ""
    // private var weatherIcon: String { isLoaded ? "clearsky_day" : "clearsky_night"}
     
-    /* init() {
+     init() {
         manager.delegate = locationManager
         manager.requestWhenInUseAuthorization()
         manager.requestAlwaysAuthorization()
@@ -34,7 +34,7 @@ struct HomeView: View {
             manager.startUpdatingLocation()
         }
         
-    } */
+    }
     
     var body: some View {
         VStack {

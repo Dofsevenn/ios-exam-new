@@ -44,7 +44,7 @@ struct ContentView: View {
                 NavigationView {
                     VStack {
                         if self.router.currentView == "home" {
-                            //HomeView(isLoaded: $isLoaded)
+                            //HomeView()
                                 //.navigationBarTitle("Hjem", displayMode: .inline)
                             
                         } else if self.router.currentView == "detail" {

@@ -13,8 +13,7 @@ import CoreLocation
 // Koden i denne filen er funnet på nettet og tilpasset til at det fungerer hos meg
   
 // Kikke på CLGeocoder og se om det er noe jeg trenger å ha med.
-import Foundation
-import MapKit
+
 final class WrappedMap: MKMapView {
     var onLongPress: (CLLocationCoordinate2D) -> Void = { _ in }
     init() {
@@ -35,8 +34,6 @@ final class WrappedMap: MKMapView {
     }
 }
 
-import SwiftUI
-import MapKit
 struct MapViewModel: UIViewRepresentable {
     @ObservedObject var weatherWM = WeatherViewModel()
     @State var manager = CLLocationManager()
@@ -60,6 +57,8 @@ struct MapViewModel: UIViewRepresentable {
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = coordinate
         annotation = newAnnotation
+        
+        print("annotation coordinates")
         
         setAnnotationsCoordinates(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
         

@@ -40,8 +40,8 @@ struct MapView: View {
                             if CLLocationManager.locationServicesEnabled() {
                                 manager.startUpdatingLocation()
                                 
-                                weatherVM.fetchWeatherSymbolInfo()
-                                weatherVM.fetchWeatherData()
+                                //weatherVM.fetchWeatherSymbolInfo()
+                                //weatherVM.fetchWeatherData()
                             }
                             //locationManager.setLocation { success in
                              //   if success {
@@ -106,8 +106,9 @@ struct MapView: View {
                 Text("Lengdegrad: \(manager.location?.coordinate.longitude ?? 0)")
                     .padding(.leading)
             }
-            Spacer()
-            Image(weatherVM.iconImageNextHour) // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+            Spacer()                              // Kommentaren under her er til deg ASLE!!!
+            Image(locationManager.weatherVM.iconImageNextHour) // Tror det virker når jeg bruker locationMangare her. Men problemet er fortsatt på annotation i MapViewModel for der kan jeg ikke bruke ObservedObject fra pga at det er UIKit, så kan vel hende at jeg må bruke delegate av noe slag.
+                // Også har jeg Home hvor ikke noe virker enda, men det har vi jo ikke snakket om.
                 .resizable()
                 .scaledToFit()
                 .frame(width: 70, height: 70)
