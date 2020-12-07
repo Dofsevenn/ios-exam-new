@@ -2,41 +2,16 @@
 //  ContentView.swift
 //  YourWeather
 //
-//  Created by Kjetil Skylstad Bjelldokken on 26/10/2020.
-//
+// The reference to the sources I have been inspired by for the code in this file is in the README.md
 
 import Combine
 import SwiftUI
 import MapKit
 
-// Ting som må følges opp underveis
-// Skrive Readme fila!
-
-// Hva trengs å gjøres i neste steg:
-// Enkel værmelding som viser om det blir regn neste 12 timer
-// I så fall gi beskjed om at bruker må ha med paraply.
-// Ta utgangspunkt i brukers posisjon
-// Hvis hvilken dag det gjelder for
-// Denne info skal lagres på disk
-// Easter egg. Animasjon se oppgave tekst
-
-// Ting som må gjøres før levering:
-// Kommentere hvor jeg har tatt kode fra
-
-
-// Ting som kan vente:
-// Sjekke opp buggen om at man må trykke 2 ganger på værmeldngs knappen i toggle modus på kart for at det skal skje noe
-// Refakturerer WeatherViewModel properties
-
 struct ContentView: View {
     @ObservedObject var weatherVM = WeatherViewModel()
     @ObservedObject var router = Router()
     @ObservedObject var locationManager = LocationManager()
-    //@State var isLoaded = true
-
-    init() {
-        
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -44,8 +19,8 @@ struct ContentView: View {
                 NavigationView {
                     VStack {
                         if self.router.currentView == "home" {
-                            //HomeView()
-                                //.navigationBarTitle("Hjem", displayMode: .inline)
+                            HomeView()
+                                .navigationBarTitle("Hjem", displayMode: .inline)
                             
                         } else if self.router.currentView == "detail" {
                             List(){
@@ -119,7 +94,6 @@ struct ContentView: View {
                                                 .padding(.trailing, 10)
                                             VStack{
                                                 Text("\(weatherVM.next12HorsSummary)")
-                                                    //.padding(.bottom, 0.5)
                                             }.padding(.trailing)
                                         }
                                     }.frame(height: 60)

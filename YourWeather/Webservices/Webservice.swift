@@ -2,8 +2,8 @@
 //  Webservice.swift
 //  YourWeather
 //
-//  Created by Kjetil Skylstad Bjelldokken on 28/10/2020.
-//
+// The reference to the sources I have been inspired by for the code is in th README.md. It is quite similar to the video I saw, but the most of the api calls I saw on google was almost the same, så I guess it's not to many ways of doing it.
+
 import Combine
 import Foundation
 import SwiftUI

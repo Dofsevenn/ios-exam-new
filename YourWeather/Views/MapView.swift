@@ -2,29 +2,24 @@
 //  MapView.swift
 //  YourWeather
 //
-//  Created by Kjetil Skyldstad Bjelldokken on 11/11/2020.
-//
+// The reference to the sources I have been inspired by for the code in this file is in the README.md
+
 import Combine
 import MapKit
 import SwiftUI
 import CoreLocation
 
-struct MapView: View {
-
+struct MapView: View{
     @ObservedObject var weatherVM = WeatherViewModel()
-    
     @State private var userTrackingMode: MapUserTrackingMode = .follow
-  
     @State var manager = CLLocationManager()
     @ObservedObject var locationManager = LocationManager()
-    
     @State var showAnnotationView = false
     @State var annotation = MKPointAnnotation()
     @State var weatherIcon = ""
     
-    //var map: Map<MapView>
-    
     var body: some View {
+        
         ZStack(){
             
                 if #available(iOS 14.0, *) {
@@ -39,21 +34,11 @@ struct MapView: View {
                             manager.distanceFilter = 1000 // Må se mer på denne
                             if CLLocationManager.locationServicesEnabled() {
                                 manager.startUpdatingLocation()
-                                
-                                //weatherVM.fetchWeatherSymbolInfo()
-                                //weatherVM.fetchWeatherData()
                             }
-                            //locationManager.setLocation { success in
-                             //   if success {
-                                   
-                               // }
-                           // }
-                            
                         }
-                    
                 } else {
                     // Fallback on earlier versions
-                    //Skrive kode her hvis jeg har tid og det er nødvendig for oppgaven
+                    // Didn't have time to do this.
                 }
             VStack{
                 HStack{
@@ -66,8 +51,8 @@ struct MapView: View {
             }
             if showAnnotationView {
                 
+                // I have chosen not to use region here, to make it easier for the user to choose any place in the world to get forcast, instead of being zoomed in on a specific place.
                 MapViewModel(annotation: $annotation, weatherIcon: $weatherIcon)
-                    //.edgesIgnoringSafeArea(.all)
             
                 VStack{
                     HStack{
@@ -79,8 +64,8 @@ struct MapView: View {
                     Spacer()
                 }
             }
-            
         }
+        
         if showAnnotationView {
             HStack{
                 VStack{
@@ -91,13 +76,14 @@ struct MapView: View {
                         .padding(.leading)
                 }
                 Spacer()
-                Image("\(weatherIcon)") // Virker må bare fikse at det oppdateres med en gang og ikke når man går inn i værmelding og tilbake
+                Image("\(weatherIcon)")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)
                     .padding(20)
             }
         } else {
+            
         HStack{
             VStack{
                 Text("Breddegrad: \(manager.location?.coordinate.latitude ?? 0)")
@@ -106,9 +92,8 @@ struct MapView: View {
                 Text("Lengdegrad: \(manager.location?.coordinate.longitude ?? 0)")
                     .padding(.leading)
             }
-            Spacer()                              // Kommentaren under her er til deg ASLE!!!
-            Image(locationManager.weatherVM.iconImageNextHour) // Tror det virker når jeg bruker locationMangare her. Men problemet er fortsatt på annotation i MapViewModel for der kan jeg ikke bruke ObservedObject fra pga at det er UIKit, så kan vel hende at jeg må bruke delegate av noe slag.
-                // Også har jeg Home hvor ikke noe virker enda, men det har vi jo ikke snakket om.
+            Spacer()                              
+            Image(locationManager.weatherVM.iconImageNextHour)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 70, height: 70)
@@ -118,17 +103,12 @@ struct MapView: View {
     }
 }
 
-protocol LocationCallbackProtocol {
-    func onLocationReceived(coordinate: CLLocation)
-}
-
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    var callback: LocationCallbackProtocol?
     @ObservedObject var weatherVM = WeatherViewModel()
     @Published var region = MKCoordinateRegion()
     
     @ObservedObject var router = Router()
-    //@Published var location = CLLocation()
+    @Published var homeIcon = ""
    
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -156,25 +136,16 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             return
         }
         print("Fetched location")
-        self.callback?.onLocationReceived(coordinate: location)
-        
-       // let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-       // let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-       // let region = MKCoordinateRegion(center: center, span: span)
-        
+      
         setCurrentUserLocationCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
-            
-            weatherVM.fetchWeatherSymbolInfo()
-            weatherVM.fetchWeatherData()
+        weatherVM.fetchWeatherSymbolInfo()
+        weatherVM.fetchWeatherData()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.homeIcon = self.weatherVM.showWetherIconHome
+        }
     }
-    /*
-    func setLocation(completion: @escaping (_ success: Bool) -> Void) {
-        setCurrentUserLocationCoordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        completion(true)
-    }
-    */
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if let error =  error as? CLError, error.code == .denied {

@@ -2,7 +2,6 @@
 //  WeatherSymbolInfo.swift
 //  YourWeather
 //
-//  Created by Kjetil Skylstad Bjelldokken on 05/11/2020.
 //
 
 import Foundation

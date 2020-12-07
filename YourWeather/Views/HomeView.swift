@@ -1,74 +1,115 @@
 //
 //  SwiftUIView.swift
 //  YourWeather
-//
-//  Created by Kjetil Skyldstad Bjelldokken on 30/11/2020.
-//
+
+// The reference to the sources I have been inspired by for the code is in th README.md
+
 import Combine
 import SwiftUI
 import CoreLocation
 
 struct HomeView: View {
-    
-    func onLocationReceived(coordinate: CLLocation) {
-        //if coordinate != coordinate.last {
-            locationManager.weatherVM.fetchWeatherSymbolInfo()
-            locationManager.weatherVM.fetchWeatherData()
-       //}
-    }
-    
-    //@Binding var isLoaded: Bool
-    //@ObservedObject var weatherVM = WeatherViewModel()
-    
     @State var manager = CLLocationManager()
     @ObservedObject var locationManager = LocationManager()
-    //@State var weatherIcon = ""
-   // private var weatherIcon: String { isLoaded ? "clearsky_day" : "clearsky_night"}
+    @State var homeIcon = ""
+    @State var rotating = false
     
      init() {
         manager.delegate = locationManager
         manager.requestWhenInUseAuthorization()
         manager.requestAlwaysAuthorization()
-        manager.distanceFilter = 1000 // Må se mer på denne
+        manager.distanceFilter = 1000
         if CLLocationManager.locationServicesEnabled() {
             manager.startUpdatingLocation()
         }
-        
+        locationManager.weatherVM.fetchWeatherSymbolInfo()
+        locationManager.weatherVM.fetchWeatherData()
     }
     
     var body: some View {
+
         VStack {
-            Spacer()
-            Text("Mandag")
-                .font(.system(size: 40))
-            //if isLoaded == true {
-                Image("\(locationManager.weatherVM.showWetherIconHome)")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 70, height: 70)
-                    .padding(20)
-           // }
             
             Spacer()
-            Image(systemName: "unbrella-fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 300, height: 300)
-           /* if locationManager.weatherVM.showWetherIconHome == "umbrella.fill" {
-                Image(systemName: locationManager.weatherVM.showWetherIconHome)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 300, height: 300)
+            
+            if locationManager.homeIcon == "" {
+                Text("")
             } else {
-                Image(locationManager.weatherVM.showWetherIconHome)
+                Text(locationManager.weatherVM.day)
+                    .font(.system(size: 40))
+            }
+            
+            Spacer()
+
+            if locationManager.weatherVM.showWetherIconHome == "umbrella.fill" {
+                Image(systemName: locationManager.homeIcon)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 300, height: 300)
-            } */
+            } else if locationManager.weatherVM.showWetherIconHome == "clearsky_day" {
+                Image(locationManager.homeIcon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 300, height: 300)
+                    .rotationEffect(.degrees(rotating ? 360 : 0), anchor: .center)
+                    .animation(Animation.linear(duration: 30)
+                                .repeatForever(autoreverses: false))
+                    .onAppear() {
+                        self.rotating.toggle()
+                    }
+            } else {
+                Image(locationManager.homeIcon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 300, height: 300)
+            }
+            
             Spacer()
-            Text("Ta med paraply i dag, det blir regn!")
-                .font(.system(size: 30))
+            
+            if locationManager.homeIcon == "umbrella.fill" {
+                Text("Ta med paraply i dag, det blir regn!")
+                    .font(.system(size: 30))
+            } else if locationManager.homeIcon == "" {
+                Text("")
+            } else {
+                Text("Du trenger ingen paraply idag.")
+                    .font(.system(size: 30))
+            }
+            
             Spacer()
+        }
+        if locationManager.weatherVM.showWetherIconHome == "umbrella.fill" {
+            Image(systemName: "drop.fill")
+                .foregroundColor(.blue)
+                .animation(
+                    Animation.easeIn(duration: 3)
+                        .repeatForever(autoreverses: false)
+                )
+                .transition(.offset(x: 0, y: -650))
+            
+            
+            Image(systemName: "drop.fill")
+                .offset(x: 100, y: 0)
+                .foregroundColor(.blue)
+                .animation(
+                    Animation.easeIn(duration: 3)
+                        .repeatForever(autoreverses: false)
+                        .delay(1)
+                    )
+                .transition(.offset(x: 0, y: -650))
+            
+            Image(systemName: "drop.fill")
+                .offset(x: -100, y: 0)
+                .foregroundColor(.blue)
+                .animation(
+                    Animation.easeIn(duration: 3)
+                        .repeatForever(autoreverses: false)
+                        .delay(0.5)
+                )
+                .transition(.offset(x: 0, y: -650))
+        
+        } else if locationManager.weatherVM.showWetherIconHome  == "clearsky_day" {
+            
         }
     }
 }

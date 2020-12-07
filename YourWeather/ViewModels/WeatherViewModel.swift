@@ -2,10 +2,7 @@
 //  WeatherViewModel.swift
 //  YourWeather
 //
-//  Created by Kjetil Skylstad Bjelldokken on 02/11/2020.
-//
-
-// Lagen en variabel med closure med en switch som har alle mulighetene på norsk i forhold til symbolcode.
+// The reference to the sources I have been inspired by for the code is in th README.md
 
 import Combine
 import Foundation
@@ -15,6 +12,16 @@ class WeatherViewModel: ObservableObject {
     @Published private var symbolData = [Symbol]()
     @Published private var weatherData: WeatherResponse?
     @Published var error: NetworkError?
+    let date = Date()
+    
+    var day: String {
+        let dateFormatter = DateFormatter()
+        var weekday: String = ""
+        dateFormatter.dateFormat = "cccc"
+        weekday = dateFormatter.string(from: date)
+        
+        return weekday
+    }
     
     // Instant properties
     var instantTemperature: Double {
@@ -31,8 +38,6 @@ class WeatherViewModel: ObservableObject {
         }
         return text
     }
-    
-    //TODO: Må kunne automatisere disse greiene her
     
     // NextHour properties
     var nextHourSummary: String {
@@ -199,8 +204,6 @@ class WeatherViewModel: ObservableObject {
         return icon
         
     }
-    
-    
     
     // Fetching data with the userlocation coordinates
     func fetchWeatherData() {

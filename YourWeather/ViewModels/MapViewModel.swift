@@ -2,8 +2,7 @@
 //  MapViewModel.swift
 //  YourWeather
 //
-//  Created by Kjetil Skyldstad Bjelldokken on 16/11/2020.
-//
+
 import Combine
 import MapKit
 import SwiftUI
@@ -11,8 +10,8 @@ import Foundation
 import CoreLocation
 
 // Koden i denne filen er funnet på nettet og tilpasset til at det fungerer hos meg
-  
-// Kikke på CLGeocoder og se om det er noe jeg trenger å ha med.
+// The code in this file is copy an paste from Stack Overflow, and modified to my project. But after I spilled water on may mac, and had to bye a new one, I can not find the place were I got the code from. But I hope it's enough that I confirms the most of the code in this file is copied from someone else.
+// The @ObservedObject, @State, @Binding, the WeatherVM and the api call and weatherIcon is my code, the rest is copyed and modified.  
 
 final class WrappedMap: MKMapView {
     var onLongPress: (CLLocationCoordinate2D) -> Void = { _ in }
@@ -51,20 +50,25 @@ struct MapViewModel: UIViewRepresentable {
         
         uiView.removeAnnotations(uiView.annotations)
         uiView.addAnnotation(annotation)
+        
     }
     
     func addAnnotation(for coordinate: CLLocationCoordinate2D) {
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = coordinate
         annotation = newAnnotation
-        
         print("annotation coordinates")
         
         setAnnotationsCoordinates(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
         
         weatherWM.fetchWeatherSymbolInfo()
         weatherWM.fetchWeatherDataAnnotation()
-            weatherIcon = weatherWM.iconImageNextHour
+        
+        // Had to use a timer here to wait for the api call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.weatherIcon = weatherWM.iconImageNextHour
+        }
+    
     }
 }
 extension MapViewModel {

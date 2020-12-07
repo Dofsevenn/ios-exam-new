@@ -2,8 +2,8 @@
 //  WeatherResponse.swift
 //  YourWeather
 //
-//  Created by Kjetil Skylstad Bjelldokken on 28/10/2020.
 //
+
 import CoreLocation
 import Foundation
 
@@ -17,7 +17,6 @@ var annotationLon = "10.744810"
 
 var homeLat = ""
 var homeLon = ""
-
 
 func setCurrentUserLocationCoordinatesHome(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
     // Format to onely show 6 desimals, that is for the looks of the UI
