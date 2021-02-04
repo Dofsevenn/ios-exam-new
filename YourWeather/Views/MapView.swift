@@ -103,6 +103,7 @@ struct MapView: View{
     }
 }
 
+// There was a plan to move this class to its own file in Models, but I went shot on time for it.
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @ObservedObject var weatherVM = WeatherViewModel()
     @Published var region = MKCoordinateRegion()

@@ -77,39 +77,41 @@ struct HomeView: View {
             }
             
             Spacer()
-        }
-        if locationManager.weatherVM.showWetherIconHome == "umbrella.fill" {
-            Image(systemName: "drop.fill")
-                .foregroundColor(.blue)
-                .animation(
-                    Animation.easeIn(duration: 3)
-                        .repeatForever(autoreverses: false)
-                )
-                .transition(.offset(x: 0, y: -650))
             
-            
-            Image(systemName: "drop.fill")
-                .offset(x: 100, y: 0)
-                .foregroundColor(.blue)
-                .animation(
-                    Animation.easeIn(duration: 3)
-                        .repeatForever(autoreverses: false)
-                        .delay(1)
+            if locationManager.weatherVM.showWetherIconHome == "umbrella.fill" {
+                Image(systemName: "drop.fill")
+                    .foregroundColor(.blue)
+                    .animation(
+                        Animation.easeIn(duration: 3)
+                            .repeatForever(autoreverses: false)
                     )
-                .transition(.offset(x: 0, y: -650))
+                    .transition(.offset(x: 0, y: -650))
+                
+                
+                Image(systemName: "drop.fill")
+                    .offset(x: 100, y: 0)
+                    .foregroundColor(.blue)
+                    .animation(
+                        Animation.easeIn(duration: 3)
+                            .repeatForever(autoreverses: false)
+                            .delay(1)
+                        )
+                    .transition(.offset(x: 0, y: -650))
+                
+                Image(systemName: "drop.fill")
+                    .offset(x: -100, y: 0)
+                    .foregroundColor(.blue)
+                    .animation(
+                        Animation.easeIn(duration: 3)
+                            .repeatForever(autoreverses: false)
+                            .delay(0.5)
+                    )
+                    .transition(.offset(x: 0, y: -650))
             
-            Image(systemName: "drop.fill")
-                .offset(x: -100, y: 0)
-                .foregroundColor(.blue)
-                .animation(
-                    Animation.easeIn(duration: 3)
-                        .repeatForever(autoreverses: false)
-                        .delay(0.5)
-                )
-                .transition(.offset(x: 0, y: -650))
-        
-        } else if locationManager.weatherVM.showWetherIconHome  == "clearsky_day" {
-            
+            } else if locationManager.weatherVM.showWetherIconHome  == "clearsky_day" {
+                
+            }
+
         }
     }
 }

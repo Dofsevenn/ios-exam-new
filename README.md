@@ -1,4 +1,4 @@
-# iOS_exam for kandidatnr:     10050
+# iOS_exam
 
 ## Versjons spesifikasjoner:
 * Xcode versjon: 12.1
